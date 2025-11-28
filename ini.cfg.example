@@ -1,0 +1,7 @@
+[General]
+modname=blazing_deserts_plus
+version=0.7-beta
+
+[Build]
+modkitpath=YOUR_MODKIT_PATH_HERE
+datapath=YOUR_DATA_PATH_HERE

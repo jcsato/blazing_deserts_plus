@@ -1,0 +1,196 @@
+
+.l-arena-selection-dialog-container .content .bro-container .column
+{
+    width: 50%;
+    height: 100%;
+    padding-top: 0.9rem;
+    padding-bottom: 0.9rem;
+
+    background-image: url("coui://gfx/ui/skin/dialog_panel_01.png");
+    background-size: 50.8rem 56.8rem;
+    background-repeat: no-repeat;
+}
+
+.l-arena-selection-dialog-container .content .bro-container .column.is-left
+{
+    padding-left: 1.0rem;
+    padding-right: 1.6rem;
+    padding-bottom: 3.5rem;
+}
+
+.l-arena-selection-dialog-container .content .bro-container .column.is-right
+{
+    padding-left: 0.5rem;
+    padding-right: 1.0rem;
+}
+
+.l-arena-selection-dialog-container .bro-portrait-container
+{
+    left: 1.5rem;
+    bottom: 0.2rem;
+    width: 14.0rem;
+    height: 14.0rem;
+
+    display: block;
+}
+
+.l-arena-selection-dialog-container .bro-portrait-container img
+{
+    position: relative;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+}
+
+.l-arena-selection-dialog-container .details-container .bro-container
+{
+    top: 0;
+    left: 2.0rem;
+    right: 1.0rem;
+    height: 54.0rem;
+    width: 100%;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.l-arena-selection-dialog-container .details-container .bro-container .bro-info-container
+{
+    left: 1.0rem;
+    right: 1.0rem;
+    top: 0rem;
+
+    display: flex;
+
+    width: 92%;
+    min-height: 26.0rem;
+
+    border-image: url("coui://gfx/ui/skin/line_metal.png") 0% 0% 100% 0%;
+    border-image-outset: 0 0 -0.5rem 0;
+}
+
+.bro-info-container .bro-info
+{
+    display: flex;
+    flex-direction: column;
+    margin-top: 2.0rem;
+    width: 100%;
+}
+
+.bro-container .bro-info .name
+{
+    margin-left: -2.0rem;
+    z-index: 10;
+
+    width: 95%;
+
+    flex-shrink: 0;
+
+    border-image: url("coui://gfx/ui/skin/line_metal.png") 0% 0% 100% 0%;
+    border-image-outset: 0 0 -0.5rem 0;
+}
+
+.l-arena-selection-dialog-container .details-container .bro-container .bro-info .bro-skills
+{
+    margin-top: 8.0rem;
+    margin-left: -10.0rem;
+}
+
+.l-arena-selection-dialog-container .details-container .bro-container .bro-info .bro-skills .skills-row
+{
+    width: 100%;
+    display: flex;
+}
+
+.l-arena-selection-dialog-container .details-container .bro-container .bro-info .bro-skills .skills-row .img
+{
+    margin-right: 14.0rem;
+}
+
+.l-arena-selection-dialog-container .details-container .bro-container .bro-status-container
+{
+    margin-top: 1.0rem;
+    width: 92%;
+}
+
+.l-arena-selection-dialog-container .details-container .bro-container .bro-status-container .stats-module
+{
+    display: flex;
+    justify-content: center;
+
+    margin: auto;
+    width: 100%;
+}
+
+.l-arena-selection-dialog-container .details-container .bro-container .bro-status-container .stats-module .stats-column
+{
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+
+    margin-left: 2.0rem;
+}
+
+.l-arena-selection-dialog-container .details-container .bro-container .bro-status-container .stats-module .stats-column .stats-row
+{
+    /* flex here to keep .stat-icon and .stats-row-stat-bar on the same vertical alignment */
+    display: flex;
+    justify-content: flex-start;
+}
+
+.l-arena-selection-dialog-container .details-container .bro-container .bro-status-container .stats-module .stats-column .stats-row .stat-icon
+{
+    width: 2.6rem;
+    height: 2.6rem;
+
+    flex-shrink: 0;
+}
+
+/* .stats-row-stat-bar is a container for .talent and .progressbar-layout combos */
+.l-arena-selection-dialog-container .details-container .bro-container .bro-status-container .stats-module .stats-column .stats-row .stats-row-stat-bar
+{
+    /* flex here to keep .talent and .progressbar-layout on the same vertical alignment */
+    display: flex;
+    justify-content: center;
+
+    width: 12.5rem;
+}
+
+.l-arena-selection-dialog-container .details-container .bro-container .bro-status-container .stats-module .stats-column .stats-row .stats-row-stat-bar .progressbar-layout
+{
+    /* flex here to keep .talent and .stats-progressbar-container horizontally locked in - could technically do without if using different margin numbers */
+    display: flex;
+    justify-content: center;
+
+    flex-shrink: 0;
+
+    height: 2.6rem;
+    width: 100%;
+}
+
+.l-arena-selection-dialog-container .details-container .bro-container .bro-status-container .stats-module .stats-column .stats-row .stats-row-stat-bar .progressbar-layout .stats-progressbar-container
+{
+    flex-shrink: 0;
+
+    height: 2.2rem;
+    width: 100%;
+
+    margin-left: 1.0rem;
+}
+
+.l-arena-selection-dialog-container .details-container .bro-container .bro-status-container .stats-module .stats-column .stats-row .stats-row-stat-bar .talent
+{
+    flex-shrink: 0;
+
+	z-index: 20;
+
+	width: 3.6rem;
+	height: 1.8rem;
+
+    margin-right: -3.9rem;
+    margin-top: -0.5rem;
+}

@@ -1,0 +1,155 @@
+.world-town-screen > .l-arena-selection-dialog-container .content .fight-container .column
+{
+    width: 50%;
+    height: 100%;
+    padding-top: 0.9rem;
+    padding-bottom: 0.9rem;
+
+    background-image: url("coui://gfx/ui/skin/dialog_panel_01.png");
+    background-size: 50.8rem 56.8rem;
+    background-repeat: no-repeat;
+}
+
+.world-town-screen > .l-arena-selection-dialog-container .content .fight-container .column.is-left
+{
+    padding-left: 1.0rem;
+    padding-right: 1.6rem;
+    padding-bottom: 3.5rem;
+}
+
+.world-town-screen > .l-arena-selection-dialog-container .content .fight-container .column.is-right
+{
+    padding-left: 0.5rem;
+    padding-right: 1.0rem;
+}
+
+.world-town-screen > .l-arena-selection-dialog-container .is-no-fights-hint
+{
+	position: absolute;
+	z-index: 5;
+
+	top: 28.0rem;
+	left: 2.5rem;
+}
+
+.world-town-screen > .l-arena-selection-dialog-container .content .is-right .details-container .composition-container
+{
+    top: 0;
+    left: 2.0rem;
+    right: 1.0rem;
+    height: 48.0rem;
+    width: 100%;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+}
+
+.world-town-screen > .l-arena-selection-dialog-container .content .is-right .details-container .composition-container .fight-info-container
+{
+    left: 1.0rem;
+    right: 1.0rem;
+    top: 0rem;
+
+    display: flex;
+
+    width: 92%;
+    min-height: 26.5rem;
+
+    border-image: url("coui://gfx/ui/skin/line_metal.png") 0% 0% 100% 0%;
+    border-image-outset: 0 0 -0.5rem 0;
+}
+
+.world-town-screen > .l-arena-selection-dialog-container .fight-portrait-container
+{
+    left: 1.5rem;
+    bottom: 0.2rem;
+    width: 14.0rem;
+    height: 14.0rem;
+
+    display: block;
+}
+
+.world-town-screen > .l-arena-selection-dialog-container .fight-portrait-container img
+{
+    position: relative;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+}
+
+.fight-info-container .fight-info
+{
+    display: flex;
+    flex-direction: column;
+    margin-top: 2.0rem;
+    width: 100%;
+}
+
+.fight-info .name
+{
+    margin-left: -2.0rem;
+    z-index: 10;
+
+    width: 95%;
+
+    flex-shrink: 0;
+
+    border-image: url("coui://gfx/ui/skin/line_metal.png") 0% 0% 100% 0%;
+    border-image-outset: 0 0 -0.5rem 0;
+}
+
+.fight-background-container
+{
+    margin-top: 1.0rem;
+    margin-left: 0.2rem;
+    width: 92%;
+
+    line-height: 2.5rem;
+}
+
+.fight-conditions-container
+{
+    display: flex;
+    flex-direction: column;
+}
+
+.fight-condition
+{
+    margin-top: 1.0rem;
+    display: flex;
+    align-items: center;
+}
+
+.fight-condition img
+{
+    width: 3.0rem;
+    margin-right: 0.5rem;
+    flex-shrink: 0;
+}
+
+.fight-entry .is-right .name
+{
+    /* Default for .title-font-normal is 1.8rem */
+    font-size: 1.5rem;
+}
+
+.fight-entry .row.is-bottom
+{
+    display: flex;
+    align-items: flex-start;
+}
+
+.fight-entry .fight-condition-amount
+{
+    margin-top: 0.5rem;
+}
+
+.fight-entry .fight-condition-icon img
+{
+    width: 3.0rem;
+    margin-left: 4.0rem;
+    margin-right: 1.0rem;
+}
