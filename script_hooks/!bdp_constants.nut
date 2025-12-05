@@ -1,5 +1,5 @@
 ::BDP <- {
-	SerializationVersion			= 2
+	SerializationVersion			= 3
 	Arena = {
 		TwistChance					= 10
 		PartialForceModifier		= 0.4
@@ -127,7 +127,7 @@
 		MaxParties				= 1
 		MaxPartiesHolyWar		= 2
 		MaxPartyResources		= 330
-		WorldmapDescription		= "A free mercenary company travelling the lands and lending their swords to the highest bidder."
+		WorldmapDescription		= "A free crownling company travelling the lands and lending their swords to the highest bidder."
 		FoodLoot				= [
 			"supplies/dates_item"
 			"supplies/dried_lamb_item"

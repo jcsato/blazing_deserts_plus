@@ -6,7 +6,7 @@
 
 		local ret = getTooltip();
 		ret.remove(1);
-		ret.insert(1, { id = 2, type = "description", text = getDescription() + " So far, this character has survived " + (matches > 1 ? "one match." : matches + " matches.") });
+		ret.insert(1, { id = 2, type = "description", text = getDescription() + " So far, this character has survived " + (matches > 1 ? matches + " matches." : "one match.") });
 
 		return ret;
 	});

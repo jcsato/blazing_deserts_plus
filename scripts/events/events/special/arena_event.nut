@@ -34,7 +34,7 @@ arena_event <- inherit("scripts/events/event", {
 				_event.m.Title = "In " + World.Arena.getCurrentArena().getName() + "...";
 				Text = "[img]gfx/ui/events/event_155.png[/img]Dozens of men mingle about the arena's entrance. Some stand stoically, not wishing to give any hint of their capabilities. Others, however, boast and brag with aplomb, either sincerely confident in their martial skills or hoping their bravado masks any holes in their game.\n\n";
 				Text += "A grizzled man, the master of the arena, holds up a scroll and taps it with a hook for a hand.\n\n";
-				Text += "You'll be facing the " + World.Arena.getCurrentComposition().getDisplayName() + ". Either you leave the arena alive, or they do. See that it's you, aye? May your path be ever Gilded.";
+				Text += "%SPEECH_ON%You'll be facing the " + World.Arena.getCurrentComposition().getDisplayName() + ". Either you leave the arena alive, or they do. See that it's you, aye? May your path be ever Gilded.%SPEECH_OFF%";
 
 				local roster = World.getPlayerRoster().getAll();
 				foreach (bro in roster) {
@@ -155,21 +155,16 @@ arena_event <- inherit("scripts/events/event", {
 			//  setFaction but *before* makeMiniboss, assignRandomEquipment, setName, and the addition of the
 			//  night effect
 			local onSpawn = function(_entity, _tag) {
-				World.Arena.applyEntityAlterations(_entity);
-			};
-
-			local onSpawnChampion = function(_entity, _tag) {
-				// Re-seed, as champions can sometimes muck up seeding for some reason
+				// Re-seed before spawning - some entities, especially champs, can muck up seeding for some reason
 				Math.seedRandom(World.Arena.getCurrentComposition().getSeed());
 
 				World.Arena.applyEntityAlterations(_entity);
-			}
+			};
 
-			local entityToPush = { ID = entity.ID, Variant = entity.Variant, Row = 0, Script = entity.Script, Faction = Const.Faction.Enemy, Callback = entity.Variant != 0 ? onSpawnChampion : onSpawn };
+			local entityToPush = { ID = entity.ID, Variant = entity.Variant, Row = 0, Script = entity.Script, Faction = Const.Faction.Enemy, Callback = onSpawn };
 
-			if (entityToPush.Variant != 0 && "NameList" in entity) {
+			if (entityToPush.Variant != 0 && "NameList" in entity)
 				entityToPush.Name <- Const.World.Common.generateName(entity.NameList) + (entity.TitleList != null ? " " + entity.TitleList[Math.rand(0, entity.TitleList.len() - 1)] : "");
-			}
 
 			properties.Entities.push(entityToPush);
 		}
