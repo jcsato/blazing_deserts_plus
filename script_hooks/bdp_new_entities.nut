@@ -226,3 +226,6 @@ function calculateCosts(_p) {
 
 calculateCosts(::Const.World.Spawn.Southern);
 calculateCosts(::Const.World.Spawn.Crownlings);
+
+::Const.EntityIcon.insert(::Const.EntityType.PeasantSouthern, "citizen_orientation");
+::Const.EntityIcon.remove(::Const.EntityType.PeasantSouthern + 1);

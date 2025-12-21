@@ -11,6 +11,7 @@ webknechts_arena_composition <- inherit("scripts/arena/compositions/arena_compos
 		m.PotentialEntities		= [ ::BDP.Arena.EntityTypes.Webknecht ];
 		m.Pay					= 160;
 		m.AllowedEntrants		= 4;
+		m.BaseStrength			= 52;
 		m.PotentialTwists		= [];
 	}
 

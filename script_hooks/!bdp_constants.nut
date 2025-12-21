@@ -122,6 +122,26 @@
 			Serpents		= [ "the Slitherer's Den", "the Hissing Fang", "the Iridescent Scale" ]
 			Webknechts		= [ "the Broodmother", "the Silk Oasis" ]
 		}
+		StandardCompositions = [
+			"blade_dancer_arena_composition"
+			"direwolves_arena_composition"
+			"direwolves_frenzied_arena_composition"
+			"gladiators_arena_composition"
+			"hyenas_arena_composition"
+			"hyenas_frenzied_arena_composition"
+			"indebted_arena_composition"
+			"indebted_northern_arena_composition"
+			"lindwurms_arena_composition"
+			"mercenaries_arena_composition"
+			"nachzehrers_arena_composition"
+			"nachzehrers_high_arena_composition"
+			"nachzehrers_low_arena_composition"
+			"nomads_arena_composition"
+			"nomads_low_arena_composition"
+			"serpents_arena_composition"
+			"unholds_arena_composition"
+			"webknechts_arena_composition"
+		]
 	}
 	Crownlings = {
 		MaxParties				= 1

@@ -99,9 +99,8 @@ arena <- {
 
 		// Finally, add comps based on number of days away
 		while (m.Compositions.len() < ::BDP.Arena.MaxCompositions && updatePressure > 0) {
-			if (Math.rand(1, 100) < 90) {
+			if (Math.rand(1, 100) < 90)
 				generateAndAddComposition();
-			}
 
 			updatePressure--;
 		}

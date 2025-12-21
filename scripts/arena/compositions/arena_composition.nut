@@ -81,7 +81,7 @@ arena_composition <- {
 
 	function buildComposition(_strength) {
 		if (m.Seed == -1)
-			m.Seed = Time.getRealTime();
+			m.Seed = Time.getRealTime() + Math.rand(1, 1000);
 
 		m.Entities = [];
 

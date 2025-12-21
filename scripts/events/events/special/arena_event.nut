@@ -116,8 +116,6 @@ arena_event <- inherit("scripts/events/event", {
 	}
 
 	function buildArenaCombatProperties(_players, _entities) {
-		Math.seedRandom(World.Arena.getCurrentComposition().getSeed());
-
 		local properties = Const.Tactical.CombatInfo.getClone();
 		properties.LocationTemplate = clone Const.Tactical.LocationTemplate;
 
@@ -137,27 +135,16 @@ arena_event <- inherit("scripts/events/event", {
 		properties.IsFogOfWarVisible = false;
 		properties.IsArenaMode = true;
 		properties.IsAutoAssigningBases = false;
+		properties.BeforeDeploymentCallback = OnBeforeDeployment.bindenv(this);
 		properties.AfterDeploymentCallback = OnAfterDeployment.bindenv(this);
 
 		properties.Entities = [];
-
-		// Sort champions to the end of the list so any seed resetting doesn't affect other entities
-		_entities.sort(function(_entity1, _entity2) {
-			if (_entity1.Variant < _entity2.Variant)
-				return -1;
-			else if (_entity1.Variant < _entity2.Variant)
-				return 1;
-			return 0;
-		});
 
 		foreach (entity in _entities) {
 			// Callback is called in tactical_entity_manager.setupEntity, after spawnEntity, setWorldTroop, and
 			//  setFaction but *before* makeMiniboss, assignRandomEquipment, setName, and the addition of the
 			//  night effect
 			local onSpawn = function(_entity, _tag) {
-				// Re-seed before spawning - some entities, especially champs, can muck up seeding for some reason
-				Math.seedRandom(World.Arena.getCurrentComposition().getSeed());
-
 				World.Arena.applyEntityAlterations(_entity);
 			};
 
@@ -174,6 +161,10 @@ arena_event <- inherit("scripts/events/event", {
 			properties.Players.push(bro);
 
 		return properties;
+	}
+
+	function OnBeforeDeployment() {
+		Math.seedRandom(World.Arena.getCurrentComposition().getSeed());
 	}
 
 	function OnAfterDeployment() {
