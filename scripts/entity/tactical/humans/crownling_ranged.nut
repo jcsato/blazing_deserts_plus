@@ -66,7 +66,7 @@ crownling_ranged <- inherit("scripts/entity/tactical/human", {
 				"ammo/quiver_of_arrows"
 			],
 			[
-				"weapons/oriental/war_bow"
+				"weapons/war_bow"
 				"ammo/quiver_of_arrows"
 			],
 			[

@@ -121,10 +121,43 @@ indemnifier <- inherit("scripts/entity/tactical/human", {
 				"armor/oriental/southern_long_mail_with_padding"
 				"armor/lamellar_harness"
 				"armor/scale_armor"
+				"armor/coat_of_scales"
 				"armor/oriental/padded_mail_and_lamellar_hauberk"
 			];
 
 			m.Items.equip(new("scripts/items/" + armors[Math.rand(0, armors.len() - 1)]));
+
+			if (::mods_getRegisteredMod("sato_equipment_variants") != null) {
+				local armor = m.Items.getItemAtSlot(Const.ItemSlot.Body);
+				local banner = World.FactionManager.getFaction(getFaction()).getBanner();
+
+				switch (armor.getID()) {
+					case "armor.body.scale_armor":
+						armor.setVariant(33);
+						break;
+					case "armor.body.coat_of_scales":
+						armor.setVariant(38);
+						break;
+					case "armor.body.mail_and_lamellar_plating":
+						if (banner == 12)		// green
+							armor.setVariant(40);
+						else if (banner == 13)	// purple
+							armor.setVariant(41);
+						else if (banner == 14)	// red
+							armor.setVariant(2);
+						break;
+					case "armor.body.padded_mail_and_lamellar_hauberk":
+						if (banner == 12)		// green
+							armor.setVariant(42);
+						else if (banner == 13)	// purple
+							armor.setVariant(43);
+						else if (banner == 14)	// red
+							armor.setVariant(7);
+						break;
+				}
+				armor.updateVariant();
+				armor.updateAppearance();
+			}
 		}
 
 		if (m.Items.hasEmptySlot(Const.ItemSlot.Head)) {

@@ -12,7 +12,7 @@ gladiators_arena_composition <- inherit("scripts/arena/compositions/arena_compos
 		m.PotentialChampions	= [ ::BDP.Arena.EntityTypes.ChampionGladiator ];
 		m.Pay					= 350;
 		m.AllowedEntrants		= 3;
-		m.PotentialTwists		= [];
+		m.PotentialTwists		= [ "coward_afraid_of_gladiators_twist"];
 		m.MinDay				= 15;
 	}
 

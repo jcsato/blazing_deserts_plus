@@ -64,33 +64,7 @@ arena_event <- inherit("scripts/events/event", {
 			]
 
 			function start(_event) {
-				local rewards = _event.getRewards();
-
-				World.Assets.addBusinessReputation(rewards.Reputation);
-				World.Assets.addMoney(rewards.Pay);
-
-				List.push({ id = 10, icon = "ui/icons/asset_money.png", text = "You gain [color=" + Const.UI.Color.PositiveEventValue + "]" + rewards.Pay + "[/color] Crowns" });
-
-				foreach (loot in rewards.Loot) {
-					// Need to call onCombatFinished and removeFromContainer to properly deal with champion items
-					loot.onCombatFinished();
-					loot.removeFromContainer();
-					World.Assets.getStash().add(loot);
-					List.push( { id = 10, icon = "ui/items/" + loot.getIcon(), text = "You gain " + Const.Strings.getArticle(loot.getName()) + loot.getName() } );
-				}
-
-				foreach (loot in World.Arena.getCurrentArena().getAdditionalLoot().getItems()) {
-					loot.removeFromContainer();
-					World.Assets.getStash().add(loot);
-					List.push( { id = 10, icon = "ui/items/" + loot.getIcon(), text = "You gain " + Const.Strings.getArticle(loot.getName()) + loot.getName() } );
-				}
-
-				World.Arena.getCurrentArena().getAdditionalLoot().clear();
-
-				local promotions = _event.getPromotions();
-
-				foreach (promotion in promotions)
-					List.push(promotion);
+				_event.giveRewards(List);
 			}
 		});
 
@@ -198,6 +172,36 @@ arena_event <- inherit("scripts/events/event", {
 			World.Statistics.getFlags().increment("ArenaFightsWon");
 
 		World.Arena.cleanup();
+	}
+
+	function giveRewards(list, reputationOverride = null) {
+		local rewards = getRewards();
+
+		World.Assets.addBusinessReputation(reputationOverride == null ? rewards.Reputation : reputationOverride);
+		World.Assets.addMoney(rewards.Pay);
+
+		list.push({ id = 10, icon = "ui/icons/asset_money.png", text = "You gain [color=" + Const.UI.Color.PositiveEventValue + "]" + rewards.Pay + "[/color] Crowns" });
+
+		foreach (loot in rewards.Loot) {
+			// Need to call onCombatFinished and removeFromContainer to properly deal with champion items
+			loot.onCombatFinished();
+			loot.removeFromContainer();
+			World.Assets.getStash().add(loot);
+			list.push( { id = 10, icon = "ui/items/" + loot.getIcon(), text = "You gain " + Const.Strings.getArticle(loot.getName()) + loot.getName() } );
+		}
+
+		foreach (loot in World.Arena.getCurrentArena().getAdditionalLoot().getItems()) {
+			loot.removeFromContainer();
+			World.Assets.getStash().add(loot);
+			list.push( { id = 10, icon = "ui/items/" + loot.getIcon(), text = "You gain " + Const.Strings.getArticle(loot.getName()) + loot.getName() } );
+		}
+
+		World.Arena.getCurrentArena().getAdditionalLoot().clear();
+
+		local promotions = getPromotions();
+
+		foreach (promotion in promotions)
+			list.push(promotion);
 	}
 
 	function getPromotions() {

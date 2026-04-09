@@ -142,18 +142,7 @@ beast_slayer_twist <- inherit("scripts/arena/twists/arena_twist", {
 				]
 
 				function start(_event) {
-					local rewards = _event.getRewards();
-
-					World.Assets.addBusinessReputation(rewards.Reputation);
-					World.Assets.addMoney(rewards.Pay);
-
-					List.push({ id = 10, icon = "ui/icons/asset_money.png", text = "You gain [color=" + Const.UI.Color.PositiveEventValue + "]" + rewards.Pay + "[/color] Crowns" });
-
-					foreach (loot in rewards.Loot) {
-						local item = new(loot);
-						World.Assets.getStash().add(item);
-						List.push( { id = 10, icon = "ui/items/" + item.getIcon(), text = "You gain " + Const.Strings.getArticle(item.getName()) + item.getName() } );
-					}
+					_event.giveRewards(List);
 				}
 			},
 			{
@@ -174,18 +163,7 @@ beast_slayer_twist <- inherit("scripts/arena/twists/arena_twist", {
 				]
 
 				function start(_event) {
-					local rewards = _event.getRewards();
-
-					World.Assets.addBusinessReputation(Const.World.Assets.ReputationOnContractFail);
-					World.Assets.addMoney(rewards.Pay);
-
-					List.push({ id = 10, icon = "ui/icons/asset_money.png", text = "You gain [color=" + Const.UI.Color.PositiveEventValue + "]" + rewards.Pay + "[/color] Crowns" });
-
-					foreach (loot in rewards.Loot) {
-						local item = new(loot);
-						World.Assets.getStash().add(item);
-						List.push( { id = 10, icon = "ui/items/" + item.getIcon(), text = "You gain " + Const.Strings.getArticle(item.getName()) + item.getName() } );
-					}
+					_event.giveRewards(List, Const.World.Assets.ReputationOnContractFail);
 				}
 			}
 		]);

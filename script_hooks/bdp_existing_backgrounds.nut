@@ -63,3 +63,14 @@
 		return ret;
 	});
 });
+
+::mods_hookExactClass("skills/backgrounds/slave_background", function(sb) {
+	local create = ::mods_getMember(sb, "create");
+
+	::mods_override(sb, "create", function() {
+		create();
+
+		// Vanilla is 190-220
+		m.HiringCost = Math.rand(16, 19) * 10;
+	});
+});
