@@ -59,6 +59,10 @@ arena_composition <- {
 		m.Flags = new("scripts/tools/tag_collection");
 	}
 
+	function getTotalStrength()	{
+		return m.Entities.map(@(entity) entity.Strength).reduce(@(a, b) a + b);
+	}
+
 	function getConditions(_conditions = []) {
 		_conditions.push({ Text = "Take up to " + getAllowedEntrants() + " brothers into battle" });
 
@@ -87,19 +91,36 @@ arena_composition <- {
 
 		// Get a mult between 0.85-0.95, 1.0, and 1.05-1.15
 		local difficultyMult = 1.0 + (m.Difficulty - 2) * Math.rand(5, 15) * 0.01;
+
+		strengthenComposition(_strength, difficultyMult, true);
+
+		local strengthPayout = ::BDP.Helpers.beautifyNumber(_strength * ::BDP.Arena.PayoutStrengthMultiplier);
+		local difficultyPayout = ::BDP.Helpers.beautifyNumber(difficultyMult * m.Difficulty * ::BDP.Arena.PayoutDifficultyBase);
+		local payRandomizer = ::BDP.Helpers.beautifyNumber(Math.rand(-1 * (m.Difficulty * 10), (m.Difficulty * 15)));
+		setPay(m.Pay + strengthPayout + difficultyPayout + payRandomizer);
+	}
+
+	function strengthenComposition(_strength, _difficultyMult = null, _includeSignatureEntities = false) {
+		// Get a mult between 0.85-0.95, 1.0, and 1.05-1.15
+		local difficultyMult = _difficultyMult != null ? _difficultyMult : 1.0 + (m.Difficulty - 2) * Math.rand(5, 15) * 0.01;
 		local iterations = 0;
 		local entityCounts = {};
 		local allocatedStrength = 0;
 		_strength = ::BDP.Helpers.beautifyNumber(_strength * difficultyMult);
 
-		foreach (entity in m.SignatureEntities) {
-			m.Entities.push(entity);
-			entityCounts[entity.Type] <- 1;
-			allocatedStrength += entity.Strength;
+		if (_includeSignatureEntities) {
+			foreach (entity in m.SignatureEntities) {
+				m.Entities.push(entity);
+				entityCounts[entity.Type] <- 1;
+				allocatedStrength += entity.Strength;
+			}
 		}
 
 		local championChance = 5;
 		championChance += World.Assets.m.ChampionChanceAdditional;
+		if (getArena().isActiveTournament())
+			championChance += ::BDP.Arena.TournamentChampionChance;
+
 		if (World.getTime().Days < 70)
 			championChance -= 1
 
@@ -111,7 +132,7 @@ arena_composition <- {
 			allocatedStrength += champion.Strength;
 		}
 
-		while(allocatedStrength < _strength && iterations < 100) {
+		while (allocatedStrength < _strength && iterations < 100) {
 			iterations++;
 			local entity = m.PotentialEntities[Math.rand(0, m.PotentialEntities.len() - 1)];
 			if (!((entity.Type in entityCounts) && entityCounts[entity.Type] + 1 == entity.MaxInComp)) {
@@ -125,11 +146,7 @@ arena_composition <- {
 			}
 		}
 
-		local strengthPayout = ::BDP.Helpers.beautifyNumber(_strength * ::BDP.Arena.PayoutStrengthMultiplier);
-		local difficultyPayout = ::BDP.Helpers.beautifyNumber(difficultyMult * m.Difficulty * ::BDP.Arena.PayoutDifficultyBase);
-		local payRandomizer = ::BDP.Helpers.beautifyNumber(Math.rand(-1 * (m.Difficulty * 10), (m.Difficulty * 15)));
-		setPay(m.Pay + strengthPayout + difficultyPayout + payRandomizer);
-
+		// Add chance for new treasures to get added
 		onAfterBuild();
 	}
 

@@ -62,6 +62,7 @@ town_arena_dialog_module <- inherit("scripts/ui/screens/ui_module", {
 				Text			= comp.getDisplayText()
 				MaxBros			= comp.getAllowedEntrants()
 				Conditions  	= comp.getConditions([])
+				Tournament		= arena.isActiveTournament()
 			});
 		}
 

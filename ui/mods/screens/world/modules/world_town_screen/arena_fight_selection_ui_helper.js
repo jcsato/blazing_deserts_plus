@@ -102,6 +102,17 @@ ArenaFightSelectionUIHelper.prototype.addFightEntry = function(_data, index) {
 		_image.removeClass('opacity-none');
 	}, null, 'opacity-none');
 
+	if (_data.Tournament) {
+		var src = "tournament.png";
+
+		column.createImage(Path.GFX + "ui/icons/" + src, function(_image) {
+			// Use centerImageWithinParent because floats are a horrible way of managing positioning that don't work
+			_image.centerImageWithinParent(-62, -94, 1, false);
+			// _image.addClass('float-left');
+			_image.removeClass('opacity-none');
+		}, null, 'opacity-none');
+	}
+
 	// right column - name + text
 	column = $('<div class="entry-column is-right"/>');
 	entry.append(column);

@@ -1,5 +1,5 @@
 ::BDP <- {
-	SerializationVersion			= 3
+	SerializationVersion			= 4
 	Arena = {
 		TwistChance					= 10
 		PartialForceModifier		= 0.4
@@ -9,6 +9,9 @@
 		MinCompositions				= 3
 		BaselineCompositions		= 5
 		MaxCompositions				= 7
+		TournamentCompositions		= 5
+		TournamentStrengthModifier	= 35
+		TournamentChampionChance	= 1
 		Flags = {
 			Deaths				= "BDP_ArenaDeaths"
 			EntrantsUnderMax	= "BDP_ArenaEntrantsUnderMax"
@@ -32,6 +35,37 @@
 				Difficulty = 3
 			}
 		}
+		RegularCompositionTypes = [
+			"arena_composition.blade_dancer"
+			"arena_composition.direwolves"
+			"arena_composition.frenzied_direwolves"
+			"arena_composition.gladiator"
+			"arena_composition.hyenas"
+			"arena_composition.frenzied_hyenas"
+			"arena_composition.indebted"
+			"arena_composition.northern_indebted"
+			"arena_composition.lindwurms"
+			"arena_composition.mercenaries"
+			"arena_composition.nachzehrers_low"
+			"arena_composition.nachzehrers"
+			"arena_composition.nachzehrers_high"
+			"arena_composition.nomads"
+			"arena_composition.nomads_low"
+			"arena_composition.serpents"
+			"arena_composition.unholds"
+			"arena_composition.webknechts"
+		]
+		TournamentCompositionTypes = [
+			"arena_composition.blade_dancer"
+			"arena_composition.gladiator"
+			"arena_composition.lindwurms"
+			"arena_composition.mercenaries"
+			"arena_composition.nachzehrers"
+			"arena_composition.nachzehrers_high"
+			"arena_composition.nomads"
+			"arena_composition.serpents"
+			"arena_composition.unholds"
+		]
 		EntityTypes = {
 			NomadCutthroat				= { ID = Const.EntityType.NomadCutthroat,	Type = "NomadCutthroat",			Strength = 12,	MaxInComp = 7,	Variant = 0,	DisplayIcon="ui/arena/nomad_cutthroat.png",		Script = "scripts/entity/tactical/humans/nomad_cutthroat" }
 			NomadOutlaw					= { ID = Const.EntityType.NomadOutlaw,		Type = "NomadOutlaw",				Strength = 25,	MaxInComp = 6,	Variant = 0,	DisplayIcon="ui/arena/nomad_outlaw.png",		Script = "scripts/entity/tactical/humans/nomad_outlaw" }

@@ -48,7 +48,7 @@ arena_event <- inherit("scripts/events/event", {
 
 		m.Screens.push({
 			ID			= "ArenaVictory"
-			Text		= "[img]gfx/ui/events/event_147.png[/img]{The arena master talks as if he doesn't even remember your face, then again he probably doesn't.%SPEECH_ON%Here's your pay, please come again.%SPEECH_OFF%The arena will be closed for the day, but you could return as early as tomorrow. | Without even raising his head from a rag of papyrus, the arena master throws you a purse of coin.%SPEECH_ON%I heard the crowds, and so here are your crowns. May you come visit the pits again.%SPEECH_OFF%The arena will be closed for the day, but you could return as early as tomorrow. | The arena master is waiting for you.%SPEECH_ON%That was a mighty fine show, Crownling. Would not mind it in the slightest if you come back again.%SPEECH_OFF%The arena will be closed for the day, but you could return as early as tomorrow.}"
+			Text		= "[img]gfx/ui/events/event_147.png[/img]{The arena master talks as if he doesn't even remember your face, then again he probably doesn't.%SPEECH_ON%Here's your pay, please come again.%SPEECH_OFF% | Without even raising his head from a rag of papyrus, the arena master throws you a purse of coin.%SPEECH_ON%I heard the crowds, and so here are your crowns. May you come visit the pits again.%SPEECH_OFF% | The arena master is waiting for you.%SPEECH_ON%That was a mighty fine show, Crownling. Would not mind it in the slightest if you come back again.%SPEECH_OFF%}"
 			Image		= ""
 			List		= [ ]
 			Characters	= [ ]
@@ -65,6 +65,12 @@ arena_event <- inherit("scripts/events/event", {
 
 			function start(_event) {
 				_event.giveRewards(List);
+
+				// `postFightCleanup` won't have run yet so `World.Arena.cleanup` won't have incremented MatchesFought
+				if (World.Arena.getCurrentArena().getCompositions().len() > 1 && World.Arena.getCurrentArena().getFightsPerDay() > (World.Arena.getCurrentArena().getMatchesFought() + 1))
+					Text += "There are still other matches you could participate in today, if you so choose.";
+				else
+					Text += "The arena will be closed for the day, but you could return as early as tomorrow.";
 			}
 		});
 

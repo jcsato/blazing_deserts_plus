@@ -4,7 +4,7 @@ nachzehrers_high_arena_composition <- inherit("scripts/arena/compositions/nachze
 	function create() {
 		nachzehrers_low_arena_composition.create();
 
-		m.Type					= "arena_composition.nachzehrers";
+		m.Type					= "arena_composition.nachzehrers_high";
 		m.DisplayName			= "Nachzehrers";
 		m.SignatureEntities		= [ ::BDP.Arena.EntityTypes.NachzehrerHigh ];
 		m.PotentialEntities		= [ ::BDP.Arena.EntityTypes.NachzehrerHigh, ::BDP.Arena.EntityTypes.NachzehrerMedium, ::BDP.Arena.EntityTypes.NachzehrerMedium, ::BDP.Arena.EntityTypes.NachzehrerLow, ::BDP.Arena.EntityTypes.NachzehrerLow ];

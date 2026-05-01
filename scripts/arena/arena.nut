@@ -13,23 +13,28 @@ arena <- {
 		LastMatchLootUpdate		= 0		// Serialized
 		AdditionalLoot			= null	// Serialized
 		AdditionalPay			= 0
+		ActiveTournament		= false	// Serialized
+		TournamentMatchesFought	= 0		// Serialized
 	}
 
-	function getID()					{ return m.ID; }
-	function getCompositions()			{ return m.Compositions; }
-	function getFightsPerDay()			{ return m.FightsPerDay; }
-	function getMatchesFought()			{ return m.MatchesFought; }
-	function getMatchesFoughtTotal()	{ return m.MatchesFoughtTotal; }
-	function getLastMatchLootUpdate()	{ return m.LastMatchLootUpdate; }
-	function getAdditionalLoot()		{ return m.AdditionalLoot; }
-	function getName()					{ return m.Name; }
-	function getCityState()				{ return m.CityState; }
+	function getID()						{ return m.ID; }
+	function getCompositions()				{ return m.Compositions; }
+	function getFightsPerDay()				{ return m.FightsPerDay; }
+	function getMatchesFought()				{ return m.MatchesFought; }
+	function getMatchesFoughtTotal()		{ return m.MatchesFoughtTotal; }
+	function getLastMatchLootUpdate()		{ return m.LastMatchLootUpdate; }
+	function getAdditionalLoot()			{ return m.AdditionalLoot; }
+	function getName()						{ return m.Name; }
+	function getCityState()					{ return m.CityState; }
+	function getTournamentMatchesFought()	{ return m.TournamentMatchesFought; }
+	function isActiveTournament()			{ return m.ActiveTournament; }
 
-	function setID(_id)					{ m.ID = _id; }
-	function setName(_name)				{ m.Name = _name; }
-	function setCityState(_c)			{ m.CityState = WeakTableRef(_c); }
+	function setID(_id)						{ m.ID = _id; }
+	function setName(_name)					{ m.Name = _name; }
+	function setCityState(_c)				{ m.CityState = WeakTableRef(_c); }
+	function setActiveTournament(_a)		{ m.ActiveTournament = _a; }
 
-	function getAdditionalPay()			{
+	function getAdditionalPay() {
 		local extra = m.AdditionalPay;
 
 		if (getCityState().hasSituation("situation.bread_and_games"))
@@ -53,6 +58,9 @@ arena <- {
 	function incrementMatchesFought()	{
 		m.MatchesFought++;
 		m.MatchesFoughtTotal++;
+
+		if (m.ActiveTournament)
+			m.TournamentMatchesFought++;
 	}
 
 	function removeComposition(_compID) {
@@ -83,6 +91,17 @@ arena <- {
 		m.LastUpdatedDay = World.getTime().Days;
 		m.MatchesFought = 0;
 
+		if (getCityState().hasSituation("situation.arena_tournament") && !m.ActiveTournament)
+			startTournament();
+
+		// *Should* only get here (the situation timing out and getting removed) if the player hasn't fought a match in
+		// the last day
+		if (m.ActiveTournament && !getCityState().hasSituation("situation.arena_tournament"))
+			return;
+
+		if (m.ActiveTournament)
+			return;
+
 		local compsToRemove = [];
 
 		// First, see if we should remove any existing comps
@@ -104,6 +123,33 @@ arena <- {
 
 			updatePressure--;
 		}
+
+		updateAdditionalLoot();
+	}
+
+	function startTournament() {
+		m.ActiveTournament = true;
+		m.TournamentMatchesFought = 0;
+
+		clear();
+
+		m.FightsPerDay = ::BDP.Arena.TournamentCompositions;
+
+		while (m.Compositions.len() < ::BDP.Arena.TournamentCompositions)
+			generateAndAddComposition();
+	}
+
+	function endTournament() {
+		m.ActiveTournament = false;
+		m.TournamentMatchesFought = 0;
+
+		m.FightsPerDay = 1;
+
+		while (m.Compositions.len() < ::BDP.Arena.BaselineCompositions)
+			generateAndAddComposition();
+
+		// close the arena
+		m.MatchesFought = getFightsPerDay();
 
 		updateAdditionalLoot();
 	}
@@ -138,9 +184,14 @@ arena <- {
 
 			if (days > comp.getMinDay())
 				break;
+
+			if (isActiveTournament() && ::BDP.Arena.TournamentCompositionTypes.find(comp.getID()) != null)
+				break;
+			else if (!isActiveTournament() && ::BDP.Arena.RegularCompositionTypes.find(comp.getID()) != null)
+				break;
 		} while(1);
 
-		local difficulty = Math.rand(1, 3);
+		local difficulty = Math.rand(isActiveTournament() ? 2 : 1, 3);
 		if (difficulty == 3) {
 			if (days <= 5)
 				difficulty = Math.rand(1, 2);
@@ -150,8 +201,8 @@ arena <- {
 
 		comp.setID(m.NextCompositionID++);
 		comp.setDifficulty(difficulty);
-		comp.buildComposition(comp.getBaseStrength() * comp.getDifficulty());
 		comp.setArena(this);
+		comp.buildComposition(comp.getBaseStrength() * comp.getDifficulty());
 		comp.generateDisplayName();
 
 		m.Compositions.push(comp);
@@ -170,6 +221,8 @@ arena <- {
 		_out.writeU8(m.MatchesFought);
 		_out.writeU8(m.MatchesFoughtTotal);
 		_out.writeU8(m.LastMatchLootUpdate);
+		_out.writeU8(m.TournamentMatchesFought);
+		_out.writeBool(m.ActiveTournament);
 
 		_out.writeU8(m.Compositions.len());
 
@@ -191,12 +244,17 @@ arena <- {
 		m.LastUpdatedDay = _in.readU8();
 		m.MatchesFought = _in.readU8();
 
-		if (World.Statistics.getFlags().getAsInt("BDPVersion") > 1) {
+		if (World.Statistics.getFlags().getAsInt("BDPVersion") >= 2) {
 			m.MatchesFoughtTotal = _in.readU8();
 			m.LastMatchLootUpdate = _in.readU8();
 		} else {
 			m.MatchesFoughtTotal = m.MatchesFought;
 			m.LastMatchLootUpdate = m.MatchesFought;
+		}
+
+		if (World.Statistics.getFlags().getAsInt("BDPVersion") >= 4) {
+			m.TournamentMatchesFought = _in.readU8();
+			m.ActiveTournament = _in.readBool();
 		}
 
 		local numCompositions = _in.readU8();
@@ -207,7 +265,13 @@ arena <- {
 			m.Compositions.push(composition);
 		}
 
-		if (World.Statistics.getFlags().getAsInt("BDPVersion") > 1)
+		if (World.Statistics.getFlags().getAsInt("BDPVersion") >= 2)
 			m.AdditionalLoot.onDeserialize(_in);
+
+		if (m.ActiveTournament) {
+			m.FightsPerDay = ::BDP.Arena.TournamentCompositions;
+			foreach (composition in m.Compositions)
+				composition.setAllowedEntrants(composition.getAllowedEntrants() + m.TournamentMatchesFought);
+		}
 	}
 }

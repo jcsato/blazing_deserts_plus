@@ -108,6 +108,31 @@ arena_manager <- {
 	function cleanup() {
 		m.CurrentArena.removeComposition(m.CurrentComposition.getID());
 		m.CurrentArena.incrementMatchesFought();
+
+		local comps = m.CurrentArena.getCompositions();
+
+		if (m.CurrentArena.isActiveTournament()) {
+			foreach (comp in comps) {
+				local currentStrength = comp.getTotalStrength();
+				comp.strengthenComposition(::BDP.Arena.TournamentStrengthModifier * m.CurrentArena.getTournamentMatchesFought())
+				local strengthIncrease = (comp.getTotalStrength() * 1.0) / currentStrength;
+				comp.setPay(::BDP.Helpers.beautifyNumber(comp.getPay() * strengthIncrease));
+				comp.setAllowedEntrants(comp.getAllowedEntrants() + 1);
+			}
+
+			if (comps.len() > 1)
+				m.CurrentArena.removeComposition(comps[Math.rand(0, comps.len() - 1)].getID());
+
+			local tournament = m.CurrentArena.getCityState().getSituationByID("situation.arena_tournament");
+
+			if (tournament != null)
+				tournament.setValidForDays(Math.max(1, tournament.getDefaultDays()));
+
+			if (m.CurrentArena.getCompositions().len() == 0) {
+				m.CurrentArena.endTournament();
+			}
+		}
+
 		setCurrentComposition(null);
 	}
 

@@ -94,6 +94,7 @@ local gilded_spawn_types = [
 	::Const.World.Spawn.Troops.Mortar
 ];
 
+// Should maybe add some slave comps. . .
 local gilded_troop_comps = [
 // [ Ind, Con, ConP, Gun, Off, Asn, Slv, Eng, Mor  ]
 	[ 1,   3,   1,    1,   0,   0,   0,   0,   0  ],
