@@ -13,7 +13,7 @@ treasure_hunter_background <- inherit("scripts/skills/backgrounds/character_back
 		m.BadEnding				= "For all the romanticism of delving into the ruins of old and coming out with ancient riches, the fact of the matter is that most expeditions for lost wealth turn up nothing at all, and most treasure hunters are one bad haul away from becoming brigands. Unfortunately, %name% was no exception. With the %companyname% falling on hard times and the treasure hunter having failed to secure riches now in two professions, the man left the company and turned to raiding merchants on the road. Last you heard, he's on the run after a caravan guard cut off his hand.";
 
 		m.HiringCost	= 60;
-		m.DailyCost		= 6;
+		m.DailyCost		= 7;
 
 		m.Excluded		= [ "trait.weasel", "trait.fear_undead", "trait.fear_beasts", "trait.cocky", "trait.craven", "trait.fainthearted", "trait.insecure", /* "trait.optimist", */ "trait.superstitious", "trait.deathwish" ];
 

@@ -1,4 +1,4 @@
-::mods_registerMod("blazing_deserts_plus", 0.11, "Blazing Deserts+");
+::mods_registerMod("blazing_deserts_plus", 0.12, "Blazing Deserts+");
 
 ::mods_queue("blazing_deserts_plus", null, function() {
 	::mods_registerCSS("screens/world/modules/world_town_screen/arena_bro_selection_ui_helper.css");

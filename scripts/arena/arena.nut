@@ -83,6 +83,17 @@ arena <- {
 	}
 
 	function update() {
+		if (getCityState().hasSituation("situation.arena_tournament") && !m.ActiveTournament)
+			startTournament();
+
+		// *Should* only get here (the situation timing out and getting removed) if the player hasn't fought a match in
+		// the last day
+		if (m.ActiveTournament && !getCityState().hasSituation("situation.arena_tournament"))
+			endTournament();
+
+		if (m.ActiveTournament)
+			return;
+
 		local updatePressure = World.getTime().Days - m.LastUpdatedDay;
 
 		if (updatePressure <= 0)
@@ -90,17 +101,6 @@ arena <- {
 
 		m.LastUpdatedDay = World.getTime().Days;
 		m.MatchesFought = 0;
-
-		if (getCityState().hasSituation("situation.arena_tournament") && !m.ActiveTournament)
-			startTournament();
-
-		// *Should* only get here (the situation timing out and getting removed) if the player hasn't fought a match in
-		// the last day
-		if (m.ActiveTournament && !getCityState().hasSituation("situation.arena_tournament"))
-			return;
-
-		if (m.ActiveTournament)
-			return;
 
 		local compsToRemove = [];
 

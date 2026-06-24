@@ -178,6 +178,7 @@ WorldTownScreenArenaDialogModule.prototype.resetPanels = function() {
 
 WorldTownScreenArenaDialogModule.prototype.chooseCurrentBro = function(_select) {
 	var chosenBroID = this.mSelectedBroEntry.data('entry').ID;
+
 	if (_select) {
 		this.mSelectedBros.push(chosenBroID);
 	} else {
@@ -198,7 +199,11 @@ WorldTownScreenArenaDialogModule.prototype.chooseCurrentBro = function(_select) 
 			chosenBroListIndex = i;
 	}
 
-	this.mBroSelectionUIHelper.selectBroEntry(this.mBroListContainer.findListEntryByIndex(chosenBroListIndex), true);
+	var nextBro = this.mBroListContainer.findListEntryByIndex(chosenBroListIndex + 1);
+	if (_select && nextBro != null)
+		this.mBroSelectionUIHelper.selectBroEntry(nextBro, true);
+	else
+		this.mBroSelectionUIHelper.selectBroEntry(this.mBroListContainer.findListEntryByIndex(chosenBroListIndex), true);
 };
 
 WorldTownScreenArenaDialogModule.prototype.destroyDIV = function() {

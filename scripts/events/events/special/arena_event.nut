@@ -168,6 +168,11 @@ arena_event <- inherit("scripts/events/event", {
 		foreach (bro in m.Bros) {
 			bro.getFlags().increment(::BDP.Arena.Flags.MatchesFought);
 
+			// Go ahead and increment vanilla flags too, for the rare other mods that key of those but are still
+			// compatible with BD+
+			bro.getFlags().increment("ArenaFightsWon");
+			bro.getFlags().increment("ArenaFights");
+
 			if (difficulty > bro.getFlags().getAsInt(::BDP.Arena.Flags.HighestDifficulty))
 				bro.getFlags().increment(::BDP.Arena.Flags.HighestDifficulty);
 		}
